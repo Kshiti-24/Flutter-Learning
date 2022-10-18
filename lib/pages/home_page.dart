@@ -1,62 +1,80 @@
-import 'package:first/models/catalog.dart';
 import 'package:first/widgets/drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'dart:convert';
-import '../widgets/items_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:animated_text_kit/animated_text_kit.dart  ';
+import 'package:animated_background/animated_background.dart';
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => _HomePage();
 }
-class _HomePageState extends State<HomePage> {
- final int num=1;
 
- final String name="Kshitiz Agarwal";
+class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
+  ParticleOptions particles = const ParticleOptions(
+    baseColor: Colors.cyan,
+    spawnOpacity: 0.0,
+    opacityChangeRate: 0.25,
+    minOpacity: 0.1,
+    maxOpacity: 0.4,
+    particleCount: 70,
+    spawnMaxRadius: 15.0,
+    spawnMaxSpeed: 100.0,
+    spawnMinSpeed: 30,
+    spawnMinRadius: 7.0,
+  );
 
- @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    loadData();
-    }
-
-
-    loadData() async {
-      final catalogJson= await rootBundle.loadString("assets/files/catalog.json");
-      final decodeData=jsonDecode(catalogJson);
-      var productsData=decodeData["products"];
-      CatalogModel.items=List.from(productsData)
-          .map<Item>((item) => Item.fromMap(item))
-          .toList();
-      setState(() {
-
-      });
-    }
+  final String name="Kshitiz Agarwal";
 
   @override
-  Widget build (BuildContext context){
-    return Scaffold(
+  Widget build(BuildContext context) {
+    return  Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: Text("Catalog App",
-          style: Theme
-              .of(context)
-              .textTheme
-              .headline6,
-  ),
+        title:Text("Catalog App"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child:  ListView.builder(
-          itemCount: CatalogModel.items.length,
-          itemBuilder: (context, index) {
-            return ItemWidget(
-              item: CatalogModel.items[index],
-            );
-          },
+      body:AnimatedBackground(
+      // vsync uses singleTicketProvider state mixin.
+      vsync: this,
+      behaviour: RandomParticleBehaviour(options: particles),
+
+      child: Center(
+      child: ListView(
+      scrollDirection: Axis.horizontal,
+      children: <Widget>[
+      Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+      const SizedBox(
+      width: 20.0,
+      height: 100.0,
+      ),
+      DefaultTextStyle(
+      style: GoogleFonts.aclonica(
+      fontSize: 30.0,
+      fontWeight: FontWeight.bold,
+      ),
+        child: AnimatedTextKit(
+          animatedTexts: [
+              TyperAnimatedText('Hello How are you',
+              textStyle: GoogleFonts.aladin(
+                color: Colors.amber,
+                fontSize: 60.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+          isRepeatingAnimation: true,
+          totalRepeatCount: 10,
         ),
       ),
-      drawer: MyDrawer(),
+      ],
+      ),
+      ],
+      ),
+      ),
+      ),
+      drawer: MyDrawer(
+      ),
     );
   }
 }

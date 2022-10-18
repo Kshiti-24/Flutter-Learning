@@ -11,6 +11,7 @@ static ThemeData lightTheme(BuildContext context) => ThemeData(
   iconTheme: IconThemeData(color: Colors.black),
   ),
 );
+
 static ThemeData darkTheme(BuildContext context) => ThemeData(
     brightness: Brightness.dark,
 );

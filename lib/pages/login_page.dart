@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
           key: _formKey,
           child: Column(
             children: [
-              Image.asset("assets/images/social-summary-logo.png",
+              Image.asset("assets/images/login_page.png",
                 fit: BoxFit.cover,
               ),
               SizedBox(
@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                         hintText: "Enter username",
                         labelText: "Username",
                       ),
-                      validator: (value) {
+                       validator: (value) {
                         if(value!=null && value.isEmpty){
                           return "Username cannot be empty";
                         }
